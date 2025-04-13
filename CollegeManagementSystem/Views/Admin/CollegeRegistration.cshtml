@@ -1,0 +1,83 @@
+﻿@model CollegeManagementSystem.Models.College
+@{
+    ViewBag.Title = "CollegeRegistration";
+}
+
+
+<style>
+    h3 {
+         color:white;
+         font-weight:bold;
+         background-color: #d39841c7;
+         height:40px;
+         text-align:center;
+        line-height:40px;
+    }
+   
+</style>
+@using (Html.BeginForm("CollegeRegistration", "Admin", FormMethod.Post))
+{
+    
+<div class="container-">
+
+    <div class="row">
+        <div class="col-sm-12">
+            <h3 class="">College Registration</h3>
+            <hr />
+        </div>
+
+    </div>
+   
+    <div class="card">
+        <div class="card-body">
+
+            <div class="row">
+                <div class="col-sm-2">Division:</div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.Mandal_Id, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">District:</div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.District_Id, new { @class = "form-control" })
+
+
+                </div>
+
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-sm-2">College Type:</div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.CollegeType_Id, new { @class = "form-control" })
+                </div>
+                <div class="col-sm-2">College Name:</div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.College_Name, new { @class = "form-control" })
+                </div>
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-sm-2">College Code:</div>
+                <div class="col-sm-4">
+                    @Html.TextBoxFor(model => model.College_Code, new { @class = "form-control" })
+                </div>
+                
+            </div>
+            <br />
+
+            <div class="row">
+                <div class="col-sm-5"></div>
+                <div class="col-sm-2">
+
+                    <input type="submit" class="btn btn-success" value="Save"/>
+                </div>
+                <div class="col-sm-5"></div>
+            </div>
+        </div>
+    </div> 
+            </div>
+
+}
+
+      
