@@ -34,11 +34,17 @@
             <div class="row">
                 <div class="col-sm-2">Division:</div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(model => model.Mandal_Id, new { @class = "form-control" })
+
+                    @Html.DropDownListFor(model=>Model.Mandal_Id, (IEnumerable<SelectListItem>)ViewBag.Division,
+                    new{@class="form-control",@onchange="GetDistrictAccordingtoDivision(this)",id="DivisionId"})
                 </div>
                 <div class="col-sm-2">District:</div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(model => model.District_Id, new { @class = "form-control" })
+                    @*@Html.TextBoxFor(model => model.District_Id, new { @class = "form-control",@id="District_Id" })*@
+
+                    <select name="District_Id" class="form-control" id="District_Id">
+                        <option>--Select--</option>
+                    </select>
 
 
                 </div>
@@ -48,7 +54,10 @@
             <div class="row">
                 <div class="col-sm-2">College Type:</div>
                 <div class="col-sm-4">
-                    @Html.TextBoxFor(model => model.CollegeType_Id, new { @class = "form-control" })
+                    @Html.DropDownListFor(model => Model.CollegeType_Id, (IEnumerable<SelectListItem>)ViewBag.OfficeType, 
+                    new { @class = "form-control",@id="OfficeTypeId" })
+
+
                 </div>
                 <div class="col-sm-2">College Name:</div>
                 <div class="col-sm-4">
@@ -80,4 +89,37 @@
 
 }
 
-      
+      <script>
+          function GetDistrictAccordingtoDivision(obj)
+          {
+              debugger;
+              var Division_Id = $('#DivisionId').val();
+              $.post('/Admin/GetDistrictAccordingtoDivision', { Division_Id: Division_Id }, function (res) {
+                  var data = JSON.parse(res);
+                  //console.log(res);
+                  if (data != null) {
+                      
+                      $('#District_Id').html(ddlBindInnerHtml(data));
+                  }
+
+              })
+          }
+
+
+
+          function ddlBindInnerHtml(data) {
+
+              var innerHtml = "<option value='0'>-Select-</option>";
+              if (data != null && data != "") {
+
+                  for (var i = 0; i < data.length; i++) {
+                      innerHtml += "<option value=" + data[i][0] + ">" + data[i][1] + "</option>";
+                  }
+              }
+              else {
+                  innerHtml += "<option value='-1'>-none-</option>";
+              }
+              return innerHtml;
+          }
+
+      </script>

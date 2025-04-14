@@ -110,6 +110,61 @@ namespace CollegeManagementSystem.Models
             }
         }
 
+
+        internal DataTable GetOfficeType()
+        {
+            DataTable dt = new DataTable();
+            try
+            {
+                dt = ExecuteProcedureWithoutParametreToGetDataTable("Sp_GetOfficeType");
+
+            }
+            catch
+            {
+                dt = null;
+            }
+            return dt;
+        }
+
+       
+        internal DataTable GetDistrictAccordingtoDivision(string Division_Id)
+        {
+            DataTable dt = new DataTable();
+
+            SqlParameter[] sp = new SqlParameter[1];
+            sp[0] = new SqlParameter("@Division_Id", Division_Id);
+            dt = ExecuteProcedureToGetDataTable("sp_GetDistrictAccordingToDivision", sp);
+
+            return dt;
+        }
+
+        private DataTable ExecuteProcedureToGetDataTable(string ProcedureName, SqlParameter[] sp)
+        {
+            using (SqlConnection sqlConnection = new SqlConnection(Constr))
+            {
+                SqlCommand command = new SqlCommand(ProcedureName, sqlConnection);
+                if (command.Connection.State == ConnectionState.Closed)
+                {
+                    command.Connection.Open();
+                }
+                DataTable dataTable = new DataTable();
+                command.CommandType = CommandType.StoredProcedure;
+                if (sp != null && sp.Length > 0)
+                {
+                    for (int i = 0; i < sp.Length; i++)
+                    {
+                        command.Parameters.Add(sp[i]);
+                    }
+                }
+                SqlDataAdapter da = new SqlDataAdapter(command);
+                command.CommandTimeout = 8000000;
+                da.Fill(dataTable);
+                sqlConnection.Close();
+                return dataTable;
+            }
+        }
+
+
     }
 }
 

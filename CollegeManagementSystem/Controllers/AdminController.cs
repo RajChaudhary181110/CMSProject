@@ -1,4 +1,5 @@
 ﻿using CollegeManagementSystem.Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -17,15 +18,19 @@ namespace CollegeManagementSystem.Controllers
         public ActionResult CollegeRegistration()
         {
             DataTable dt = objbus.GetDivision();
-            //ViewBag.Division = AllClass.CreateDropDownList(dt);
+            ViewBag.Division = AllClass.CreateDropDownList(dt);
+            DataTable dt1 = objbus.GetOfficeType();
+            ViewBag.OfficeType = AllClass.CreateDropDownList(dt1);
             return View();
 
         }
         [HttpPost]
         public bool CollegeRegistration(College objmain)
         {
-            bool flag = false;
+            bool flag = false;   
             BusinessLayer objbus = new BusinessLayer();
+            DataTable dt = objbus.GetDivision();
+            ViewBag.Division = AllClass.CreateDropDownList(dt);
             flag = objbus.CollegeRegistration(objmain);
             if (flag==true)
             {
@@ -36,6 +41,13 @@ namespace CollegeManagementSystem.Controllers
                 Response.Write("<Script>alert('Data not Save!')</script>");
 	        }
             return flag;
+        }
+        public string GetDistrictAccordingtoDivision(string Division_Id)
+        {
+            string res="";
+            DataTable dt = objbus.GetDistrictAccordingtoDivision(Division_Id);
+            res = JsonConvert.SerializeObject(dt);
+            return res;
         }
 
 

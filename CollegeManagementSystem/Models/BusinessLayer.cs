@@ -17,5 +17,15 @@ namespace CollegeManagementSystem.Models
         {
             return objdata.GetDivision();
         }
+
+        internal System.Data.DataTable GetOfficeType()
+        {
+            return objdata.GetOfficeType();
+        }
+
+        internal System.Data.DataTable GetDistrictAccordingtoDivision(string Division_Id)
+        {
+            return objdata.GetDistrictAccordingtoDivision(Division_Id);
+        }
     }
 }
